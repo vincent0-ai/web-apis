@@ -1,0 +1,23 @@
+# Environment variables
+# Keep .env files out of version control
+.env
+.env.*
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+# Replace 'venv' with the name of your virtual environment directory if it's different
+venv/
+
+# IDE / Editor specific
+.vscode/
+.idea/
+
+# Build artifacts
+dist/
+build/
+*.egg-info/

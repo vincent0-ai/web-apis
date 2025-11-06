@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-from flask_pymongo import PyMongo
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from pymongo import MongoClient
 from flask_wtf.csrf import CSRFProtect
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -29,9 +29,23 @@ app.config["SECRET_KEY"] = os.urandom(24)
 #users_collection = mongo.db.users
 
 client = MongoClient('mongodb://localhost:27017/')
-db = client['demo']
-users_collection = db['data']
+db = client['app_db']
+users_collection = db['users']
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('500.html'), 500
+
+@app.errorhandler(403)
+def forbidden_error(e):
+    return render_template('403.html'), 403
+
+
+@login_required
 @app.route('/')
 def index():
     """
